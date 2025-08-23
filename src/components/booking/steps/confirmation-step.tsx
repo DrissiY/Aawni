@@ -80,7 +80,7 @@ export function ConfirmationStep() {
             <h4 className="font-medium text-gray-900 mb-2">Selected Services</h4>
             <div className="flex flex-wrap gap-2">
               {selectedServices.map((service, index) => (
-                <Badge key={index} variant="secondary" className="bg-cyan-100 text-cyan-700">
+                <Badge key={index} variant="secondary" className="bg-primary-100 text-primary-700">
                   {service}
                 </Badge>
               ))}
@@ -172,7 +172,7 @@ export function ConfirmationStep() {
             <div className="flex items-center space-x-4">
               <Avatar className="h-16 w-16">
                 <AvatarImage src={selectedTechnician.avatar} alt={selectedTechnician.name} />
-                <AvatarFallback className="bg-cyan-100 text-cyan-700 text-lg font-semibold">
+                <AvatarFallback className="bg-primary-100 text-primary-700 text-lg font-semibold">
                   {selectedTechnician.name.split(' ').map(n => n[0]).join('')}
                 </AvatarFallback>
               </Avatar>
@@ -265,7 +265,7 @@ export function ConfirmationStep() {
         <Button
           onClick={handleConfirmBooking}
           size="lg"
-          className="bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white px-8 py-3 text-lg font-semibold"
+          className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white px-8 py-3 text-lg font-semibold"
         >
           Confirm Booking & Proceed to Payment
         </Button>

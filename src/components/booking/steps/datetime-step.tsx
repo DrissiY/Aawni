@@ -176,8 +176,8 @@ export function DateTimeStep() {
                   h-10 w-10 text-sm rounded-md transition-colors
                   ${day.isCurrentMonth ? 'text-gray-900' : 'text-gray-300'}
                   ${day.isPast ? 'cursor-not-allowed opacity-50' : ''}
-                  ${day.isToday ? 'bg-cyan-100 text-cyan-700 font-semibold' : ''}
-                  ${day.isSelected ? 'bg-cyan-600 text-white font-semibold' : ''}
+                  ${day.isToday ? 'bg-primary-100 text-primary-700 font-semibold' : ''}
+                ${day.isSelected ? 'bg-primary-600 text-white font-semibold' : ''}
                   ${day.isAvailable && !day.isSelected && !day.isToday ? 'hover:bg-gray-100' : ''}
                 `}
               >
@@ -214,12 +214,12 @@ export function DateTimeStep() {
                 return (
                   <Button
                     key={time}
-                    variant={isSelected ? "default" : "outline"}
+                    variant={isSelected ? "primary" : "outline"}
                     size="sm"
                     onClick={() => isAvailable && handleTimeSelect(time)}
                     disabled={!isAvailable}
                     className={`
-                      ${isSelected ? 'bg-cyan-600 hover:bg-cyan-700' : ''}
+                      ${isSelected ? 'bg-primary-600 hover:bg-primary-700' : ''}
                       ${!isAvailable ? 'opacity-50 cursor-not-allowed' : ''}
                     `}
                   >
@@ -232,7 +232,7 @@ export function DateTimeStep() {
             {/* Legend */}
             <div className="flex items-center space-x-4 mt-4 text-xs text-gray-500">
               <div className="flex items-center space-x-1">
-                <div className="w-3 h-3 bg-cyan-600 rounded"></div>
+                <div className="w-3 h-3 bg-primary-600 rounded"></div>
                 <span>Selected</span>
               </div>
               <div className="flex items-center space-x-1">
@@ -250,16 +250,16 @@ export function DateTimeStep() {
 
       {/* Selected DateTime Summary */}
       {selectedDate && selectedTime && (
-        <Card className="bg-cyan-50 border-cyan-200">
+        <Card className="bg-primary-50 border-primary-200">
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
-              <div className="flex items-center space-x-2 text-cyan-600">
+              <div className="flex items-center space-x-2 text-primary-600">
                 <Calendar className="h-5 w-5" />
                 <Clock className="h-5 w-5" />
               </div>
               <div>
-                <h4 className="font-medium text-cyan-900">Appointment Scheduled</h4>
-                <p className="text-sm text-cyan-700 mt-1">
+                <h4 className="font-medium text-primary-900">Appointment Scheduled</h4>
+              <p className="text-sm text-primary-700 mt-1">
                   {selectedDate.toLocaleDateString('en-US', { 
                     weekday: 'long', 
                     year: 'numeric', 
@@ -267,7 +267,7 @@ export function DateTimeStep() {
                     day: 'numeric' 
                   })} at {selectedTime}
                 </p>
-                <Badge variant="secondary" className="mt-2 bg-cyan-100 text-cyan-700">
+                <Badge variant="secondary" className="mt-2 bg-primary-100 text-primary-700">
                   {Intl.DateTimeFormat().resolvedOptions().timeZone}
                 </Badge>
               </div>

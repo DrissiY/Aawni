@@ -68,7 +68,7 @@ export function LocationStep() {
           // Add marker if location exists
           if (location?.coordinates) {
             markerRef.current = new mapboxgl.Marker({
-              color: '#0891b2', // cyan-600
+              color: '#5551EC', // primary-600
               draggable: true
             })
             .setLngLat([location.coordinates.lng, location.coordinates.lat])
@@ -551,21 +551,21 @@ export function LocationStep() {
 
       {/* Selected Location Display */}
       {location && (
-        <Card className="bg-cyan-50 border-cyan-200">
+        <Card className="bg-primary-50 border-primary-200">
           <CardContent className="p-4">
             <div className="flex items-start space-x-3">
-              <MapPin className="h-5 w-5 text-cyan-600 mt-0.5" />
+              <MapPin className="h-5 w-5 text-primary-600 mt-0.5" />
               <div className="flex-1">
-                <h4 className="font-medium text-cyan-900">Selected Location</h4>
-                <p className="text-sm text-cyan-700 mt-1">{location.address}</p>
-                <div className="flex items-center space-x-4 mt-2 text-xs text-cyan-600">
+                <h4 className="font-medium text-primary-900">Selected Location</h4>
+              <p className="text-sm text-primary-700 mt-1">{location.address}</p>
+              <div className="flex items-center space-x-4 mt-2 text-xs text-primary-600">
                   <span>City: {location.city}</span>
                   {location.postalCode && <span>ZIP: {location.postalCode}</span>}
                 </div>
                 {(houseNumber || apartment || additionalNotes) && (
-                  <div className="mt-3 pt-3 border-t border-cyan-200">
-                    <h5 className="font-medium text-cyan-900 text-xs mb-2">Additional Details:</h5>
-                    <div className="space-y-1 text-xs text-cyan-700">
+                  <div className="mt-3 pt-3 border-t border-primary-200">
+              <h5 className="font-medium text-primary-900 text-xs mb-2">Additional Details:</h5>
+              <div className="space-y-1 text-xs text-primary-700">
                       {houseNumber && <div>House/Building: {houseNumber}</div>}
                       {apartment && <div>Apartment/Unit: {apartment}</div>}
                       {additionalNotes && <div>Instructions: {additionalNotes}</div>}

@@ -279,7 +279,7 @@ export function FreelancerScheduleStep() {
           <div className="flex items-center space-x-3">
             <Avatar className="h-10 w-10">
               <AvatarImage src={selectedTechnician.avatar} alt={selectedTechnician.name} />
-              <AvatarFallback className="bg-cyan-100 text-cyan-700 font-semibold">
+              <AvatarFallback className="bg-primary-100 text-primary-700 font-semibold">
                 {selectedTechnician.name.split(' ').map(n => n[0]).join('')}
               </AvatarFallback>
             </Avatar>
@@ -317,7 +317,7 @@ export function FreelancerScheduleStep() {
                                ${day.isUnavailable 
                                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed border-gray-300' 
                                  : day.isSelected 
-                                 ? 'bg-cyan-600 text-white border-cyan-600' 
+                                 ? 'bg-primary-600 text-white border-primary-600' 
                                  : 'bg-green-100 text-green-800 border-green-200 hover:bg-green-200 hover:border-green-300 cursor-pointer'
                                }
                              `}
@@ -332,7 +332,7 @@ export function FreelancerScheduleStep() {
             
             <div className="flex items-center justify-center space-x-4 mt-4 text-xs text-gray-500">
                          <div className="flex items-center space-x-1">
-                           <div className="w-3 h-3 bg-cyan-600 rounded"></div>
+                           <div className="w-3 h-3 bg-primary-600 rounded"></div>
                            <span>Selected</span>
                          </div>
                          <div className="flex items-center space-x-1">
@@ -376,11 +376,11 @@ export function FreelancerScheduleStep() {
                   return (
                     <Button
                       key={time}
-                      variant={isSelected ? "default" : "outline"}
+                      variant={isSelected ? "primary" : "outline"}
                       size="sm"
                       onClick={() => handleTimeSelect(time)}
                       className={`
-                        ${isSelected ? 'bg-cyan-600 hover:bg-cyan-700' : ''}
+                        ${isSelected ? 'bg-primary-600 hover:bg-primary-700' : ''}
                       `}
                     >
                       {time}
@@ -420,14 +420,14 @@ export function FreelancerScheduleStep() {
                 </Button>
               </div>
               
-              <div className="mt-4 p-4 bg-cyan-50 rounded-lg">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-cyan-700">Estimated cost:</span>
-                  <span className="text-lg font-semibold text-cyan-900">
+              <div className="mt-4 p-4 bg-primary-50 rounded-lg">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-primary-700">Estimated cost:</span>
+                <span className="text-lg font-semibold text-primary-900">
                     ${(selectedTechnician.hourlyRate * hours).toFixed(2)}
                   </span>
                 </div>
-                <p className="text-xs text-cyan-600 mt-1">
+                <p className="text-xs text-primary-600 mt-1">
                   ${selectedTechnician.hourlyRate}/hour × {hours} {hours === 1 ? 'hour' : 'hours'}
                 </p>
               </div>
@@ -437,16 +437,16 @@ export function FreelancerScheduleStep() {
 
         {/* Summary */}
         {selectedDate && selectedTime && hours > 0 && (
-          <Card className="bg-cyan-50 border-cyan-200">
-            <CardContent className="p-4">
-              <div className="flex items-center space-x-3">
-                <div className="flex items-center space-x-2 text-cyan-600">
-                  <Calendar className="h-5 w-5" />
-                  <Clock className="h-5 w-5" />
-                </div>
-                <div>
-                  <h4 className="font-medium text-cyan-900">Booking Summary</h4>
-                  <p className="text-sm text-cyan-700 mt-1">
+          <Card className="bg-primary-50 border-primary-200">
+                      <CardContent className="p-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="flex items-center space-x-2 text-primary-600">
+                            <Calendar className="h-5 w-5" />
+                            <Clock className="h-5 w-5" />
+                          </div>
+                          <div>
+                            <h4 className="font-medium text-primary-900">Booking Summary</h4>
+                            <p className="text-sm text-primary-700 mt-1">
                     {selectedTechnician.name} • {selectedDate.toLocaleDateString('en-US', { 
                       weekday: 'long', 
                       year: 'numeric', 
@@ -454,7 +454,7 @@ export function FreelancerScheduleStep() {
                       day: 'numeric' 
                     })} at {selectedTime} • {hours} {hours === 1 ? 'hour' : 'hours'}
                   </p>
-                  <p className="text-lg font-semibold text-cyan-900 mt-2">
+                  <p className="text-lg font-semibold text-primary-900 mt-2">
                     Total: ${(selectedTechnician.hourlyRate * hours).toFixed(2)}
                   </p>
                 </div>
@@ -495,7 +495,7 @@ export function FreelancerScheduleStep() {
               id="sort-select"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+              className="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
               <option value="rating">Highest Rated</option>
               <option value="price">Lowest Price</option>
@@ -521,7 +521,7 @@ export function FreelancerScheduleStep() {
             <div key={freelancer.id} className="space-y-4">
               <Card 
                 className={`cursor-pointer transition-all hover:shadow-md ${
-                  isSelected ? 'ring-2 ring-cyan-500 bg-cyan-50' : ''
+                  isSelected ? 'ring-2 ring-primary-500 bg-primary-50' : ''
                 }`}
                 onClick={() => handleFreelancerSelect(freelancer)}
               >
@@ -531,7 +531,7 @@ export function FreelancerScheduleStep() {
                     <div className="flex items-center space-x-3">
                       <Avatar className="h-12 w-12">
                         <AvatarImage src={freelancer.avatar} alt={freelancer.name} />
-                        <AvatarFallback className="bg-cyan-100 text-cyan-700 font-semibold">
+                        <AvatarFallback className="bg-primary-100 text-primary-700 font-semibold">
                           {freelancer.name.split(' ').map(n => n[0]).join('')}
                         </AvatarFallback>
                       </Avatar>
@@ -561,7 +561,7 @@ export function FreelancerScheduleStep() {
                       <div className="text-2xl font-bold text-gray-900">
                         ${freelancer.hourlyRate}
                       </div>
-                      <div className="text-sm text-cyan-600 font-medium">per hour</div>
+                      <div className="text-sm text-primary-600 font-medium">per hour</div>
                     </div>
                   </div>
 
@@ -587,9 +587,9 @@ export function FreelancerScheduleStep() {
 
                   {/* Selection Indicator */}
                   {isSelected && (
-                    <div className="mt-2 pt-2 border-t border-cyan-200">
-                      <div className="flex items-center justify-center space-x-2 text-cyan-700">
-                        <div className="w-2 h-2 bg-cyan-600 rounded-full"></div>
+                    <div className="mt-2 pt-2 border-t border-primary-200">
+                <div className="flex items-center justify-center space-x-2 text-primary-700">
+                  <div className="w-2 h-2 bg-primary-600 rounded-full"></div>
                         <span className="text-xs font-medium">Click to view availability</span>
                       </div>
                     </div>
@@ -621,8 +621,8 @@ export function FreelancerScheduleStep() {
                               ${day.isUnavailable 
                                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200' 
                                 : day.isSelected 
-                                ? 'bg-cyan-600 text-white border-cyan-600' 
-                                : 'bg-white text-gray-900 border-gray-200 hover:bg-cyan-50 hover:border-cyan-300'
+                                ? 'bg-primary-600 text-white border-primary-600'
+                : 'bg-white text-gray-900 border-gray-200 hover:bg-primary-50 hover:border-primary-300'
                               }
                             `}
                           >
@@ -636,7 +636,7 @@ export function FreelancerScheduleStep() {
                       
                       <div className="flex items-center justify-center space-x-4 mt-4 text-xs text-gray-500">
                         <div className="flex items-center space-x-1">
-                          <div className="w-3 h-3 bg-cyan-600 rounded"></div>
+                          <div className="w-3 h-3 bg-primary-600 rounded"></div>
                           <span>Selected</span>
                         </div>
                         <div className="flex items-center space-x-1">
@@ -680,11 +680,11 @@ export function FreelancerScheduleStep() {
                             return (
                               <Button
                                 key={time}
-                                variant={isTimeSelected ? "default" : "outline"}
+                                variant={isTimeSelected ? "primary" : "outline"}
                                 size="sm"
                                 onClick={() => handleTimeSelect(time)}
                                 className={`
-                                  ${isTimeSelected ? 'bg-cyan-600 hover:bg-cyan-700' : ''}
+                                  ${isTimeSelected ? 'bg-primary-600 hover:bg-primary-700' : ''}
                                 `}
                               >
                                 {time}
@@ -724,14 +724,14 @@ export function FreelancerScheduleStep() {
                           </Button>
                         </div>
                         
-                        <div className="mt-4 p-4 bg-cyan-50 rounded-lg">
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm text-cyan-700">Estimated cost:</span>
-                            <span className="text-lg font-semibold text-cyan-900">
+                        <div className="mt-4 p-4 bg-primary-50 rounded-lg">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-primary-700">Estimated cost:</span>
+                <span className="text-lg font-semibold text-primary-900">
                               ${(freelancer.hourlyRate * hours).toFixed(2)}
                             </span>
                           </div>
-                          <p className="text-xs text-cyan-600 mt-1">
+                          <p className="text-xs text-primary-600 mt-1">
                             ${freelancer.hourlyRate}/hour × {hours} {hours === 1 ? 'hour' : 'hours'}
                           </p>
                         </div>
@@ -741,16 +741,16 @@ export function FreelancerScheduleStep() {
 
                   {/* Summary */}
                   {selectedDate && selectedTime && hours > 0 && (
-                    <Card className="bg-cyan-50 border-cyan-200">
+                    <Card className="bg-primary-50 border-primary-200">
                       <CardContent className="p-4">
                         <div className="flex items-center space-x-3">
-                          <div className="flex items-center space-x-2 text-cyan-600">
+                          <div className="flex items-center space-x-2 text-primary-600">
                             <Calendar className="h-5 w-5" />
                             <Clock className="h-5 w-5" />
                           </div>
                           <div>
-                            <h4 className="font-medium text-cyan-900">Booking Summary</h4>
-                            <p className="text-sm text-cyan-700 mt-1">
+                            <h4 className="font-medium text-primary-900">Booking Summary</h4>
+                            <p className="text-sm text-primary-700 mt-1">
                               {freelancer.name} • {selectedDate.toLocaleDateString('en-US', { 
                                 weekday: 'long', 
                                 year: 'numeric', 
@@ -758,7 +758,7 @@ export function FreelancerScheduleStep() {
                                 day: 'numeric' 
                               })} at {selectedTime} • {hours} {hours === 1 ? 'hour' : 'hours'}
                             </p>
-                            <p className="text-lg font-semibold text-cyan-900 mt-2">
+                            <p className="text-lg font-semibold text-primary-900 mt-2">
                               Total: ${(freelancer.hourlyRate * hours).toFixed(2)}
                             </p>
                           </div>

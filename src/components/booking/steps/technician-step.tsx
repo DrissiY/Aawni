@@ -174,7 +174,7 @@ export function TechnicianStep() {
               id="sort-select"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+              className="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
               <option value="rating">Highest Rated</option>
               <option value="price">Lowest Price</option>
@@ -199,7 +199,7 @@ export function TechnicianStep() {
             <Card 
               key={technician.id} 
               className={`cursor-pointer transition-all hover:shadow-md ${
-                isSelected ? 'ring-2 ring-cyan-500 bg-cyan-50' : ''
+                isSelected ? 'ring-2 ring-primary-500 bg-primary-50' : ''
               }`}
               onClick={() => handleTechnicianSelect(technician)}
             >
@@ -208,7 +208,7 @@ export function TechnicianStep() {
                   {/* Avatar */}
                   <Avatar className="h-16 w-16">
                     <AvatarImage src={technician.avatar} alt={technician.name} />
-                    <AvatarFallback className="bg-cyan-100 text-cyan-700 text-lg font-semibold">
+                    <AvatarFallback className="bg-primary-100 text-primary-700 text-lg font-semibold">
                       {technician.name.split(' ').map(n => n[0]).join('')}
                     </AvatarFallback>
                   </Avatar>
@@ -298,9 +298,9 @@ export function TechnicianStep() {
 
                 {/* Selection Indicator */}
                 {isSelected && (
-                  <div className="mt-4 pt-4 border-t border-cyan-200">
-                    <div className="flex items-center justify-center space-x-2 text-cyan-700">
-                      <div className="w-2 h-2 bg-cyan-600 rounded-full"></div>
+                  <div className="mt-4 pt-4 border-t border-primary-200">
+              <div className="flex items-center justify-center space-x-2 text-primary-700">
+                <div className="w-2 h-2 bg-primary-600 rounded-full"></div>
                       <span className="text-sm font-medium">Selected Technician</span>
                     </div>
                   </div>
@@ -328,23 +328,23 @@ export function TechnicianStep() {
 
       {/* Selected Technician Summary */}
       {selectedTechnician && (
-        <Card className="bg-cyan-50 border-cyan-200">
+        <Card className="bg-primary-50 border-primary-200">
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
               <Avatar className="h-12 w-12">
                 <AvatarImage src={selectedTechnician.avatar} alt={selectedTechnician.name} />
-                <AvatarFallback className="bg-cyan-100 text-cyan-700 font-semibold">
+                <AvatarFallback className="bg-primary-100 text-primary-700 font-semibold">
                   {selectedTechnician.name.split(' ').map(n => n[0]).join('')}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1">
-                <h4 className="font-medium text-cyan-900">{selectedTechnician.name}</h4>
+                <h4 className="font-medium text-primary-900">{selectedTechnician.name}</h4>
                 <div className="flex items-center space-x-2 mt-1">
                   <div className="flex items-center space-x-1">
                     {renderStars(selectedTechnician.rating)}
                   </div>
-                  <span className="text-sm text-cyan-700">{selectedTechnician.rating}</span>
-                  <span className="text-sm text-cyan-600">• ${selectedTechnician.hourlyRate}/hr</span>
+                  <span className="text-sm text-primary-700">{selectedTechnician.rating}</span>
+                <span className="text-sm text-primary-600">• ${selectedTechnician.hourlyRate}/hr</span>
                 </div>
               </div>
             </div>

@@ -2,7 +2,7 @@ import LandingPage from '@/components/landing-page';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen">
       <LandingPage />
     </main>
   );

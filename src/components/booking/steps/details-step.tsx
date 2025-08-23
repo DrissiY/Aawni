@@ -102,7 +102,7 @@ export function DetailsStep() {
               onClick={addRequirement}
               disabled={!newRequirement.trim()}
               size="sm"
-              className="bg-cyan-600 hover:bg-cyan-700"
+              className="bg-primary-600 hover:bg-primary-700"
             >
               <Plus className="h-4 w-4" />
             </Button>
@@ -117,12 +117,12 @@ export function DetailsStep() {
                   <Badge
                     key={index}
                     variant="secondary"
-                    className="flex items-center space-x-1 px-3 py-1 bg-cyan-50 text-cyan-700 border border-cyan-200"
+                    className="flex items-center space-x-1 px-3 py-1 bg-primary-50 text-primary-700 border border-primary-200"
                   >
                     <span className="text-sm">{requirement}</span>
                     <button
                       onClick={() => handleRequirementRemove(index)}
-                      className="ml-1 hover:bg-cyan-200 rounded-full p-0.5"
+                      className="ml-1 hover:bg-primary-200 rounded-full p-0.5"
                       type="button"
                     >
                       <X className="h-3 w-3" />
@@ -171,7 +171,7 @@ export function DetailsStep() {
                 <ul className="text-sm text-gray-600 mt-1 space-y-1">
                   {details.requirements.map((req, index) => (
                     <li key={index} className="flex items-start space-x-2">
-                      <span className="text-cyan-600 mt-1">•</span>
+                      <span className="text-primary-600 mt-1">•</span>
                       <span>{req}</span>
                     </li>
                   ))}

@@ -387,13 +387,13 @@ export function CustomerInfoStep() {
 
       {/* Form Summary */}
       {isFormValid && (
-        <Card className="bg-cyan-50 border-cyan-200">
+        <Card className="bg-primary-50 border-primary-200">
           <CardContent className="p-4">
             <div className="flex items-start space-x-3">
-              <User className="h-5 w-5 text-cyan-600 mt-0.5" />
+              <User className="h-5 w-5 text-primary-600 mt-0.5" />
               <div>
-                <h4 className="font-medium text-cyan-900">Contact Information Confirmed</h4>
-                <div className="mt-2 space-y-1 text-sm text-cyan-700">
+                <h4 className="font-medium text-primary-900">Contact Information Confirmed</h4>
+              <div className="mt-2 space-y-1 text-sm text-primary-700">
                   <p><strong>Name:</strong> {formData.name}</p>
                   <p><strong>Email:</strong> {formData.email}</p>
                   <p><strong>Phone:</strong> {formData.phone}</p>

@@ -4,36 +4,41 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 font-sans",
   {
     variants: {
       variant: {
-        default:
-          "bg-cyan-600 text-white shadow hover:bg-cyan-700 active:bg-cyan-800",
-        destructive:
-          "bg-red-500 text-white shadow-sm hover:bg-red-600 active:bg-red-700",
-        outline:
-          "border border-gray-200 bg-white shadow-sm hover:bg-gray-50 hover:text-gray-900 active:bg-gray-100",
+        primary:
+          "bg-primary text-white shadow-md hover:bg-primary-600 active:bg-primary-700 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
         secondary:
-          "bg-gray-100 text-gray-900 shadow-sm hover:bg-gray-200 active:bg-gray-300",
-        ghost: "hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200",
-        link: "text-cyan-600 underline-offset-4 hover:underline hover:text-cyan-700",
-        icon: "bg-cyan-50 text-cyan-600 border border-cyan-200 hover:bg-cyan-100 hover:border-cyan-300 active:bg-cyan-200",
-        "icon-selected": "bg-cyan-600 text-white border border-cyan-600 shadow-sm",
+          "bg-secondary text-neutral shadow-md hover:bg-secondary-600 active:bg-secondary-700 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
+        outline:
+          "border-2 border-primary bg-transparent text-primary shadow-sm hover:bg-primary hover:text-white active:bg-primary-700 transform hover:scale-[1.02] active:scale-[0.98]",
+        ghost: 
+          "bg-transparent text-neutral hover:bg-neutral-100 active:bg-neutral-200 transform hover:scale-[1.02] active:scale-[0.98]",
+        destructive:
+          "bg-error text-white shadow-md hover:bg-red-600 active:bg-red-700 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
+        success:
+          "bg-success text-white shadow-md hover:bg-green-600 active:bg-green-700 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
+        warning:
+          "bg-warning text-neutral shadow-md hover:bg-yellow-600 active:bg-yellow-700 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
+        link: 
+          "text-primary underline-offset-4 hover:underline hover:text-primary-600 bg-transparent shadow-none transform hover:scale-[1.02] active:scale-[0.98]",
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        xl: "h-12 rounded-lg px-10 text-base font-semibold",
-        icon: "h-12 w-12 rounded-full",
-        "icon-sm": "h-8 w-8 rounded-full",
-        "icon-lg": "h-16 w-16 rounded-full",
+        sm: "h-8 px-4 text-xs font-medium",
+        md: "h-10 px-6 text-sm font-medium",
+        lg: "h-12 px-8 text-base font-semibold",
+        xl: "h-14 px-10 text-lg font-semibold",
+        icon: "h-10 w-10 p-0",
+        "icon-sm": "h-8 w-8 p-0",
+        "icon-lg": "h-12 w-12 p-0",
+        "icon-xl": "h-14 w-14 p-0",
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: "primary",
+      size: "md",
     },
   }
 );

@@ -146,44 +146,6 @@ export function BookingSystem({ selectedServices, selectedSubServices }: Booking
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleBackToServices}
-                className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                <span>Back to Services</span>
-              </Button>
-              
-              <div className="h-6 w-px bg-gray-300" />
-              
-              <div>
-                <h1 className="text-lg font-semibold text-gray-900">
-                  Book Your Service
-                </h1>
-                <p className="text-sm text-gray-500">
-                  {selectedSubServices.length} service{selectedSubServices.length !== 1 ? 's' : ''} selected
-                </p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <div className="text-sm text-gray-600">
-                Step {currentStep + 1} of {steps.length}
-              </div>
-              <div className="w-32">
-                <Progress value={completionPercentage} className="h-2" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Stepper */}
       <div className="bg-white border-b">
@@ -198,10 +160,10 @@ export function BookingSystem({ selectedServices, selectedSubServices }: Booking
                 return (
                   <li key={step.name} className="relative flex-1">
                     {stepIdx !== steps.length - 1 && (
-                      <div className="absolute top-4 left-1/2 h-0.5 bg-gray-200" style={{ width: 'calc(100% - 2rem)', marginLeft: '1rem' }}>
+                      <div className="absolute top-4 left-1/2 h-0.5 bg-gray-300 border-b border-gray-400" style={{ width: 'calc(100% - 2rem)', marginLeft: '1rem' }}>
                         <div 
-                          className={`h-full transition-all duration-500 ${
-                            isCompleted ? 'bg-cyan-600' : 'bg-gray-200'
+                          className={`h-full transition-all duration-500 border-b ${
+                            isCompleted ? 'bg-gray-400 border-gray-500' : 'bg-gray-300 border-gray-400'
                           }`}
                           style={{ width: isCompleted ? '100%' : '0%' }}
                         />
@@ -213,9 +175,9 @@ export function BookingSystem({ selectedServices, selectedSubServices }: Booking
                         flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300
                         ${
                           isCompleted 
-                            ? 'bg-cyan-600 border-cyan-600 text-white' 
+                            ? 'bg-primary-600 border-primary-600 text-white' 
                             : isCurrent 
-                            ? 'bg-white border-cyan-600 text-cyan-600 ring-4 ring-cyan-100'
+                            ? 'bg-white border-primary-600 text-primary-600 ring-4 ring-primary-100'
                             : 'bg-white border-gray-300 text-gray-400'
                         }
                       `}>
@@ -228,7 +190,7 @@ export function BookingSystem({ selectedServices, selectedSubServices }: Booking
                       
                       <div className="mt-2 text-center">
                         <div className={`text-xs font-medium ${
-                          isCurrent ? 'text-cyan-600' : isCompleted ? 'text-gray-900' : 'text-gray-500'
+                          isCurrent ? 'text-primary-600' : isCompleted ? 'text-gray-900' : 'text-gray-500'
                         }`}>
                           {step.name}
                         </div>
@@ -249,15 +211,30 @@ export function BookingSystem({ selectedServices, selectedSubServices }: Booking
           <div className="lg:col-span-2">
             <Card className="shadow-lg">
               <CardHeader className="pb-4">
+                <div>
+                        <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBackToServices}
+                      className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                      <span>Back to Services</span>
+                    </Button>
+                </div>
+                
                 <div className="flex items-center justify-between">
-                  {/* Left side: Step info */}
-                  <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-cyan-100 rounded-lg">
-                      <currentStepData.icon className="h-6 w-6 text-cyan-600" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-xl">{currentStepData.name}</CardTitle>
-                      <p className="text-gray-600 text-sm">{currentStepData.description}</p>
+                  {/* Left side: Back to Services button and Step info */}
+                  <div className="flex items-center space-x-4">
+                    
+                    <div className="flex items-center space-x-3">
+                      <div className="p-2 bg-primary-100 rounded-lg">
+                        <currentStepData.icon className="h-6 w-6 text-primary-600" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl">{currentStepData.name}</CardTitle>
+                        <p className="text-gray-600 text-sm">{currentStepData.description}</p>
+                      </div>
                     </div>
                   </div>
                   
@@ -348,7 +325,7 @@ export function BookingSystem({ selectedServices, selectedSubServices }: Booking
                     {/* Location */}
                     {location && (
                       <div className="flex items-start space-x-3">
-                        <MapPin className="h-4 w-4 text-cyan-600 mt-0.5" />
+                        <MapPin className="h-4 w-4 text-primary-600 mt-0.5" />
                         <div className="flex-1">
                           <div className="text-sm font-medium text-gray-900">Location</div>
                           <div className="text-xs text-gray-600">{location.address}</div>
@@ -359,7 +336,7 @@ export function BookingSystem({ selectedServices, selectedSubServices }: Booking
                     {/* Freelancer & Schedule */}
                     {selectedTechnician && (
                       <div className="flex items-start space-x-3">
-                        <User className="h-4 w-4 text-cyan-600 mt-0.5" />
+                        <User className="h-4 w-4 text-primary-600 mt-0.5" />
                         <div className="flex-1">
                           <div className="text-sm font-medium text-gray-900">Freelancer</div>
                           <div className="text-xs text-gray-600">{selectedTechnician.name}</div>
@@ -371,7 +348,7 @@ export function BookingSystem({ selectedServices, selectedSubServices }: Booking
                     {/* Date & Time */}
                     {dateTime && (
                       <div className="flex items-start space-x-3">
-                        <Calendar className="h-4 w-4 text-cyan-600 mt-0.5" />
+                        <Calendar className="h-4 w-4 text-primary-600 mt-0.5" />
                         <div className="flex-1">
                           <div className="text-sm font-medium text-gray-900">Schedule</div>
                           <div className="text-xs text-gray-600">
@@ -389,7 +366,7 @@ export function BookingSystem({ selectedServices, selectedSubServices }: Booking
                     {/* Hours */}
                     {selectedHours && selectedHours > 0 && (
                       <div className="flex items-start space-x-3">
-                        <Clock className="h-4 w-4 text-cyan-600 mt-0.5" />
+                        <Clock className="h-4 w-4 text-primary-600 mt-0.5" />
                         <div className="flex-1">
                           <div className="text-sm font-medium text-gray-900">Duration</div>
                           <div className="text-xs text-gray-600">{selectedHours} {selectedHours === 1 ? 'hour' : 'hours'}</div>
@@ -403,7 +380,7 @@ export function BookingSystem({ selectedServices, selectedSubServices }: Booking
                     {/* Contact Info */}
                     {customerInfo && customerInfo.name && (
                       <div className="flex items-start space-x-3">
-                        <Settings className="h-4 w-4 text-cyan-600 mt-0.5" />
+                        <Settings className="h-4 w-4 text-primary-600 mt-0.5" />
                         <div className="flex-1">
                           <div className="text-sm font-medium text-gray-900">Contact</div>
                           <div className="text-xs text-gray-600">{customerInfo.name}</div>
