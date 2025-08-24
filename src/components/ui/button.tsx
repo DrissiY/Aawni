@@ -9,7 +9,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-primary text-white shadow-md hover:bg-primary-600 active:bg-primary-700 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
+          "bg-primary text-white shadow-md hover:bg-primary-600 hover:text-white active:bg-primary-700 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
         secondary:
           "bg-secondary text-neutral shadow-md hover:bg-secondary-600 active:bg-secondary-700 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
         outline:
@@ -21,9 +21,13 @@ const buttonVariants = cva(
         success:
           "bg-success text-white shadow-md hover:bg-green-600 active:bg-green-700 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
         warning:
-          "bg-warning text-neutral shadow-md hover:bg-yellow-600 active:bg-yellow-700 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
+          "bg-warning text-neutral shadow-md hover:bg-yellow-600 hover:text-white active:bg-yellow-700 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
         link: 
           "text-primary underline-offset-4 hover:underline hover:text-primary-600 bg-transparent shadow-none transform hover:scale-[1.02] active:scale-[0.98]",
+        icon:
+          "bg-transparent text-neutral hover:bg-neutral-100 active:bg-neutral-200 transform hover:scale-[1.02] active:scale-[0.98]",
+        "icon-selected":
+          "bg-primary text-white shadow-md hover:bg-primary-600 hover:text-white active:bg-primary-700 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
       },
       size: {
         sm: "h-8 px-4 text-xs font-medium",

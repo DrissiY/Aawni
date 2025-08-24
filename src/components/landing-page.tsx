@@ -26,6 +26,37 @@ interface Service {
   subservices: string[];
 }
 
+interface SubserviceDescription {
+  [key: string]: string;
+}
+
+const subserviceDescriptions: SubserviceDescription = {
+  'Express Cleaning': 'Quick and efficient cleaning service for busy schedules. Perfect for regular maintenance and light cleaning tasks.',
+  'Deep Cleaning': 'Comprehensive cleaning service that covers every corner of your space. Includes detailed sanitization and organization.',
+  'Villa cleaning': 'Specialized cleaning for large residential properties. Complete service for villas, mansions, and luxury homes.',
+  'Office Cleaning': 'Professional commercial cleaning services. Maintain a clean and productive work environment for your business.',
+  'Wiring Installation': 'Professional electrical wiring services for new constructions and renovations. Safe and code-compliant installations.',
+  'Outlet Repair': 'Fix faulty electrical outlets and switches. Ensure safe and reliable power connections throughout your property.',
+  'Light Fixture': 'Installation and repair of lighting fixtures. From chandeliers to recessed lighting, we handle all types.',
+  'Circuit Breaker': 'Circuit breaker installation, repair, and maintenance. Protect your electrical system from overloads and faults.',
+  'Local Moving': 'Efficient moving services within the city. Professional packing, loading, and transportation for local relocations.',
+  'Long Distance': 'Reliable long-distance moving services. Secure transportation of your belongings across cities and regions.',
+  'Packing Service': 'Professional packing and unpacking services. Protect your valuables with expert packing techniques and materials.',
+  'Storage': 'Secure storage solutions for your belongings. Short-term and long-term storage options available.',
+  'Pipe Repair': 'Expert pipe repair and replacement services. Fix leaks, bursts, and damaged pipes quickly and efficiently.',
+  'Drain Cleaning': 'Professional drain cleaning and unclogging services. Clear blockages and restore proper water flow.',
+  'Faucet Installation': 'Installation and repair of faucets and fixtures. Upgrade your kitchen and bathroom with modern fixtures.',
+  'Water Heater': 'Water heater installation, repair, and maintenance. Ensure reliable hot water supply for your home.',
+  'Lawn Care': 'Complete lawn maintenance services. Mowing, edging, fertilizing, and seasonal lawn care programs.',
+  'Garden Maintenance': 'Professional garden care and landscaping. Plant care, pruning, weeding, and garden design services.',
+  'Tree Trimming': 'Safe and professional tree trimming and pruning. Maintain healthy trees and improve your property aesthetics.',
+  'Landscaping': 'Complete landscaping design and installation. Transform your outdoor space with professional landscape services.',
+  'Interior Painting': 'Professional interior painting services. Transform your indoor spaces with quality paints and expert application.',
+  'Exterior Painting': 'Exterior painting and surface preparation. Protect and beautify your property with weather-resistant coatings.',
+  'Wall Preparation': 'Professional wall preparation and repair. Ensure smooth, clean surfaces for perfect paint application.',
+  'Color Consultation': 'Expert color selection and design consultation. Choose the perfect colors to match your style and preferences.'
+};
+
 const services: Service[] = [
   {
     id: 'cleaning',
@@ -69,6 +100,7 @@ export default function LandingPage() {
   const router = useRouter();
   const { language, t } = useLanguage();
   const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [hoveredSubservice, setHoveredSubservice] = useState<string | null>(null);
   const [backgroundVisible, setBackgroundVisible] = useState(true);
 
   const handleServiceClick = (serviceId: string) => {
@@ -175,17 +207,37 @@ export default function LandingPage() {
                 transition={{ duration: 0.3 }}
                 className="p-4 sm:p-6 border-t border-gray-300"
               >
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                  {services.find(s => s.id === selectedService)?.subservices.map((subservice, index) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      className=" bg-white h-auto py-3 px-4 text-left justify-start hover:bg-primary-50 hover:border-primary transition-colors text-sm"
-                      onClick={() => handleSubserviceClick(selectedService, subservice)}
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                    {services.find(s => s.id === selectedService)?.subservices.map((subservice, index) => (
+                      <Button
+                        key={index}
+                        variant="outline"
+                        className=" bg-white h-auto py-3 px-4 text-left justify-start hover:bg-primary-50 hover:border-primary transition-colors text-sm"
+                        onClick={() => handleSubserviceClick(selectedService, subservice)}
+                        onMouseEnter={() => setHoveredSubservice(subservice)}
+                        onMouseLeave={() => setHoveredSubservice(null)}
+                      >
+                        {subservice}
+                      </Button>
+                    ))}
+                  </div>
+                  
+                  {/* Subservice Description */}
+                  {hoveredSubservice && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2 }}
+                      className="bg-gray-50 border border-gray-200 rounded-lg p-4"
                     >
-                      {subservice}
-                    </Button>
-                  ))}
+                      <h4 className="font-medium text-gray-900 mb-2">{hoveredSubservice}</h4>
+                      <p className="text-sm text-gray-600 leading-relaxed">
+                        {subserviceDescriptions[hoveredSubservice]}
+                      </p>
+                    </motion.div>
+                  )}
                 </div>
               </motion.div>
             )}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -13,9 +13,15 @@ import {
   LogOut,
   ChevronDown,
   Globe,
+  Package,
+  ShoppingBag,
+  UserCircle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/contexts/language-context';
+import { getCurrentOrders } from '@/data/mock-orders';
+import { getUnreadNotifications, formatNotificationTime, getNotificationIcon, type Notification } from '@/data/mock-notifications';
+import { useRouter } from 'next/navigation';
 
 interface NavbarProps {
   className?: string;
@@ -25,6 +31,30 @@ export function Navbar({ className }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  
+  const router = useRouter();
+  const notificationsRef = useRef<HTMLDivElement>(null);
+  const mobileNotificationsRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+  
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (notificationsRef.current && !notificationsRef.current.contains(event.target as Node) &&
+          mobileNotificationsRef.current && !mobileNotificationsRef.current.contains(event.target as Node)) {
+        setIsNotificationsOpen(false);
+      }
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   
   const { language, setLanguage, t } = useLanguage();
   
@@ -44,6 +74,31 @@ export function Navbar({ className }: NavbarProps) {
   const navigationItems = [
     { name: t('home'), href: '/' },
   ];
+
+  // Get current orders count for notification badge
+  const currentOrders = getCurrentOrders();
+  const currentOrdersCount = currentOrders.length;
+  
+  // Get unread notifications count
+  const unreadNotifications = getUnreadNotifications();
+  const notificationsCount = unreadNotifications.length;
+  
+  const handleNotificationClick = (notification: Notification) => {
+    setIsNotificationsOpen(false);
+    if (notification.actionUrl) {
+      router.push(notification.actionUrl);
+    }
+  };
+  
+  const handleNotificationsToggle = () => {
+    setIsNotificationsOpen(!isNotificationsOpen);
+    setIsUserMenuOpen(false); // Close user menu when opening notifications
+  };
+  
+  const handleUserMenuToggle = () => {
+    setIsUserMenuOpen(!isUserMenuOpen);
+    setIsNotificationsOpen(false); // Close notifications when opening user menu
+  };
 
   return (
     <nav className={cn(' my-4', className)}>
@@ -83,16 +138,94 @@ export function Navbar({ className }: NavbarProps) {
               </div>
             ) : isAuthenticated ? (
               <div className="flex items-center space-x-4">
+                {/* Orders Icon with Badge */}
+                <Link href="/orders" className="p-2 text-neutral hover:text-primary rounded-full transition-colors relative">
+                  <Package className="h-5 w-5" />
+                  {currentOrdersCount > 0 && (
+                    <span className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
+                      {currentOrdersCount > 9 ? '9+' : currentOrdersCount}
+                    </span>
+                  )}
+                </Link>
+
                 {/* Notifications */}
-                <button className="p-2 text-neutral hover:text-primary rounded-full transition-colors relative">
-                  <Bell className="h-5 w-5" />
-                  <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
-                </button>
+                <div className="relative" ref={notificationsRef}>
+                  <button 
+                    onClick={handleNotificationsToggle}
+                    className="p-2 text-neutral hover:text-primary rounded-full transition-colors relative"
+                  >
+                    <Bell className="h-5 w-5" />
+                    {notificationsCount > 0 && (
+                      <span className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
+                        {notificationsCount > 9 ? '9+' : notificationsCount}
+                      </span>
+                    )}
+                  </button>
+                  
+                  {/* Notifications Dropdown */}
+                  {isNotificationsOpen && (
+                    <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-white rounded-3xl shadow-lg border border-gray-200 z-50 max-h-80 sm:max-h-96 overflow-y-auto">
+                      <div className="p-3 sm:p-4 border-b border-gray-100">
+                        <h3 className="text-base sm:text-lg font-semibold text-gray-900">Notifications</h3>
+                        {notificationsCount > 0 && (
+                          <p className="text-sm text-gray-500">{notificationsCount} unread</p>
+                        )}
+                      </div>
+                      <div className="py-2">
+                        {unreadNotifications.length === 0 ? (
+                          <div className="px-3 sm:px-4 py-6 sm:py-8 text-center text-gray-500">
+                            <Bell className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 text-gray-300" />
+                            <p className="text-sm sm:text-base">No new notifications</p>
+                          </div>
+                        ) : (
+                          unreadNotifications.map((notification) => (
+                            <button
+                              key={notification.id}
+                              onClick={() => handleNotificationClick(notification)}
+                              className="w-full px-3 sm:px-4 py-2 sm:py-3 hover:bg-gray-50 transition-colors text-left border-b border-gray-50 last:border-b-0"
+                            >
+                              <div className="flex items-start space-x-2 sm:space-x-3">
+                                <span className="text-base sm:text-lg flex-shrink-0 mt-0.5">
+                                  {getNotificationIcon(notification.type)}
+                                </span>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between">
+                                    <p className="text-xs sm:text-sm font-medium text-gray-900 truncate">
+                                      {notification.title}
+                                    </p>
+                                    <span className="text-xs text-gray-500 flex-shrink-0 ml-2">
+                                      {formatNotificationTime(notification.timestamp)}
+                                    </span>
+                                  </div>
+                                  <p className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
+                                    {notification.message}
+                                  </p>
+                                  {!notification.read && (
+                                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                                  )}
+                                </div>
+                              </div>
+                            </button>
+                          ))
+                        )}
+                      </div>
+                      {unreadNotifications.length > 0 && (
+                        <div className="p-2 sm:p-3 border-t border-gray-100">
+                          <Link href="/notifications" className="block">
+                             <button className="w-full text-center text-xs sm:text-sm text-primary hover:text-primary-600 font-medium py-1">
+                               View all notifications
+                             </button>
+                           </Link>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
 
                 {/* User Menu */}
-                <div className="relative">
+                <div className="relative" ref={userMenuRef}>
                   <button
-                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    onClick={handleUserMenuToggle}
                     className="flex items-center space-x-2 p-2 text-neutral hover:text-primary rounded-lg transition-colors"
                   >
                     <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
@@ -106,7 +239,7 @@ export function Navbar({ className }: NavbarProps) {
 
                   {/* User Dropdown */}
                   {isUserMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-3xl shadow-lg py-1 z-50 border border-gray-200">
                       <Link
                         href="/profile"
                         className="flex items-center px-4 py-2 text-sm text-neutral hover:text-primary"
@@ -114,6 +247,14 @@ export function Navbar({ className }: NavbarProps) {
                       >
                         <User className="h-4 w-4 mr-2" />
                         {t('profile')}
+                      </Link>
+                      <Link
+                        href="/orders"
+                        className="flex items-center px-4 py-2 text-sm text-neutral hover:text-primary"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <Package className="h-4 w-4 mr-2" />
+                        Orders
                       </Link>
                       <Link
                         href="/settings"
@@ -137,7 +278,7 @@ export function Navbar({ className }: NavbarProps) {
               </div>
             ) : (
               <div className="flex items-center space-x-4">
-                          <Link 
+                <Link 
                   href="/signup"
                   className="text-primary hover:text-primary-600 font-medium transition-colors"
                 >
@@ -205,10 +346,91 @@ export function Navbar({ className }: NavbarProps) {
                       {mockUser.email}
                     </div>
                   </div>
-                  <button className="ml-auto p-2 text-neutral hover:text-primary rounded-full transition-colors relative">
-                    <Bell className="h-5 w-5" />
-                    <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
-                  </button>
+                  <div className="ml-auto flex items-center space-x-2">
+                    {/* Orders Icon with Badge */}
+                    <Link href="/orders" className="p-2 text-neutral hover:text-primary rounded-full transition-colors relative">
+                      <Package className="h-5 w-5" />
+                      {currentOrdersCount > 0 && (
+                        <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
+                          {currentOrdersCount > 9 ? '9+' : currentOrdersCount}
+                        </span>
+                      )}
+                    </Link>
+                    
+                    {/* Notifications */}
+                    <div className="relative" ref={mobileNotificationsRef}>
+                      <button 
+                         onClick={handleNotificationsToggle}
+                         className="p-2 text-neutral hover:text-primary rounded-full transition-colors relative"
+                       >
+                        <Bell className="h-5 w-5" />
+                        {notificationsCount > 0 && (
+                          <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
+                            {notificationsCount > 9 ? '9+' : notificationsCount}
+                          </span>
+                        )}
+                      </button>
+                      
+                      {/* Mobile Notifications Dropdown */}
+                      {isNotificationsOpen && (
+                        <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-white rounded-3xl shadow-lg border border-gray-200 z-50 max-h-80 sm:max-h-96 overflow-y-auto">
+                          <div className="p-3 sm:p-4 border-b border-gray-100">
+                            <h3 className="text-base sm:text-lg font-semibold text-gray-900">Notifications</h3>
+                            {notificationsCount > 0 && (
+                              <p className="text-sm text-gray-500">{notificationsCount} unread</p>
+                            )}
+                          </div>
+                          <div className="py-2">
+                            {unreadNotifications.length === 0 ? (
+                              <div className="px-3 sm:px-4 py-6 sm:py-8 text-center text-gray-500">
+                                <Bell className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 text-gray-300" />
+                                <p className="text-sm sm:text-base">No new notifications</p>
+                              </div>
+                            ) : (
+                              unreadNotifications.map((notification) => (
+                                <button
+                                  key={notification.id}
+                                  onClick={() => handleNotificationClick(notification)}
+                                  className="w-full px-3 sm:px-4 py-2 sm:py-3 hover:bg-gray-50 transition-colors text-left border-b border-gray-50 last:border-b-0"
+                                >
+                                  <div className="flex items-start space-x-2 sm:space-x-3">
+                                    <span className="text-base sm:text-lg flex-shrink-0 mt-0.5">
+                                      {getNotificationIcon(notification.type)}
+                                    </span>
+                                    <div className="flex-1 min-w-0">
+                                      <div className="flex items-center justify-between">
+                                        <p className="text-xs sm:text-sm font-medium text-gray-900 truncate">
+                                          {notification.title}
+                                        </p>
+                                        <span className="text-xs text-gray-500 flex-shrink-0 ml-2">
+                                          {formatNotificationTime(notification.timestamp)}
+                                        </span>
+                                      </div>
+                                      <p className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
+                                        {notification.message}
+                                      </p>
+                                      {!notification.read && (
+                                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                                      )}
+                                    </div>
+                                  </div>
+                                </button>
+                              ))
+                            )}
+                          </div>
+                          {unreadNotifications.length > 0 && (
+                            <div className="p-2 sm:p-3 border-t border-gray-100">
+                           <Link href="/notifications" className="block">
+                             <button className="w-full text-center text-xs sm:text-sm text-primary hover:text-primary-600 font-medium py-1">
+                               View all notifications
+                             </button>
+                           </Link>
+                         </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
                 <div className="space-y-1">
                   <Link
@@ -218,6 +440,14 @@ export function Navbar({ className }: NavbarProps) {
                   >
                     <User className="h-5 w-5 mr-3" />
                     Profile
+                  </Link>
+                  <Link
+                    href="/orders"
+                    className="flex items-center px-3 py-2 text-base font-medium text-neutral hover:text-primary rounded-md transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <Package className="h-5 w-5 mr-3" />
+                    Orders
                   </Link>
                   <Link
                     href="/settings"
